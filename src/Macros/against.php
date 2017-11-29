@@ -13,10 +13,14 @@ Builder::macro("against", function ($search, $booleanMode = false) {
 
     foreach ($this->bindings['matches'] as $match => $matched) {
         $components = explode('.', $match);
-        $as = $components[0] . "_" . $components[1] . "_score";
+        if (count($components) > 1) {
+            $as = $components[0] . "_" . $components[1] . "_score";
+        } else {
+            $as = $this->from . "_" . $match;
+        }
+
         if (!$matched) {
-            $this->selectRaw("MATCH ($match) AGAINST (?) AS $as", [$search])
-                ->orderBy($as, 'DESC');
+            $this->selectRaw("MATCH ($match) AGAINST (?) AS $as", [$search]);
 
             $this->bindings[$match] = true;
         }
