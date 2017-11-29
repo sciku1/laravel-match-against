@@ -13,7 +13,7 @@ class MatchAgainstServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        foreach (glob(__DIR__ . '../Macros/*') as $path) {
+        foreach (glob(__DIR__ . '/../Macros/*') as $path) {
             require_once $path;
         }
 
