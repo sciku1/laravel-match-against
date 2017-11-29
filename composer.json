@@ -17,5 +17,12 @@
         "psr-4": {
             "Sciku1\\LaravelMatchAgainst\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Sciku1\\LaravelMatchAgainst\\Providers\\MatchAgainstServiceProvider"
+            ]
+        }
     }
 }
