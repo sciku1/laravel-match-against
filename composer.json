@@ -1,0 +1,21 @@
+{
+    "name": "sciku1/laravel-match-against",
+    "description": "Laravel builder match against eloquent syntax and related.",
+    "keywords": ["laravel", "builder", "macros", "eloquent", "orm", "match-against"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Timothy Lopez",
+            "email": "timothy.lopez38@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/database": "5.*",
+        "illuminate/support": "5.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sciku1\\LaravelMatchAgainst\\": "src/"
+        }
+    }
+}
