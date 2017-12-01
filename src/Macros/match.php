@@ -15,9 +15,8 @@ Builder::macro("match", function ($cols){
     }
 
     foreach ($cols as $col) {
-        $this->bindings['matches'][$col] = false;
+        $this->bindings['matches'][] = $col;
     }
-
 
     return $this;
 });

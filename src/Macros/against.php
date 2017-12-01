@@ -11,7 +11,7 @@ Builder::macro("against", function ($search, $booleanMode = false) {
         $this->bindings['matches'] = [];
     }
 
-    foreach ($this->bindings['matches'] as $match => $matched) {
+    foreach ($this->bindings['matches'] as $match) {
         $components = explode('.', $match);
         if (count($components) > 1) {
             $as = $components[0] . "_" . $components[1] . "_score";
@@ -20,17 +20,14 @@ Builder::macro("against", function ($search, $booleanMode = false) {
         }
 
         $boolSql = "";
-        
+
         if ($booleanMode) {
             $boolSql = "IN BOOLEAN MODE";
         }
 
         $this->search = $search;
-        if (!$matched) {
-            $this->selectRaw("MATCH ($match) AGAINST (? {$boolSql}) AS $as", [$search]);
+        $this->selectRaw("MATCH ($match) AGAINST (? {$boolSql}) AS $as", [$search]);
 
-            $this->bindings[$match] = true;
-        }
     }
 
     return $this;

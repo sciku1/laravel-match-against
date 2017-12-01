@@ -6,7 +6,7 @@ Builder::macro("totalScore", function ($order = "DESC") {
     $count = count($this->bindings['matches']);
     $i = 0;
     $search = [];
-    foreach ($this->bindings['matches'] as $match => $matched) {
+    foreach ($this->bindings['matches'] as $match) {
         $query .= "MATCH ({$match}) AGAINST (?)";
         $search[] = $this->search;
         if(++$i !== $count) {
