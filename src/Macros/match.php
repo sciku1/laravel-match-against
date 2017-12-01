@@ -2,12 +2,9 @@
 use Illuminate\Database\Query\Builder;
 
 Builder::macro("match", function ($cols){
-    if (!empty($this->bindings['against'])) {
-        $this->bindings['against'] = null;
-    }
 
-    if (empty($this->bindings['matches'])) {
-        $this->bindings['matches'] = [];
+    if (empty($this->matches)) {
+        $this->matches = [];
     }
 
     if (!is_array($cols)) {
@@ -15,7 +12,7 @@ Builder::macro("match", function ($cols){
     }
 
     foreach ($cols as $col) {
-        $this->bindings['matches'][] = $col;
+        $this->matches[] = $col;
     }
 
     return $this;

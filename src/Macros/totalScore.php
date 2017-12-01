@@ -3,10 +3,10 @@ use Illuminate\Database\Query\Builder;
 
 Builder::macro("totalScore", function ($order = "DESC") {
     $query = "(";
-    $count = count($this->bindings['matches']);
+    $count = count($this->matches);
     $i = 0;
     $search = [];
-    foreach ($this->bindings['matches'] as $match) {
+    foreach ($this->matches as $match) {
         $query .= "MATCH ({$match}) AGAINST (?)";
         $search[] = $this->search;
         if(++$i !== $count) {

@@ -3,15 +3,12 @@
 use Illuminate\Database\Query\Builder;
 
 Builder::macro("against", function ($search, $booleanMode = false) {
-    if (!empty($this->bindings['against'])) {
-        $this->bindings['against'] = null;
+    if (empty($this->matches)) {
+        $this->matches = [];
     }
 
-    if (empty($this->bindings['matches'])) {
-        $this->bindings['matches'] = [];
-    }
 
-    foreach ($this->bindings['matches'] as $match) {
+    foreach ($this->matches as $match) {
         $components = explode('.', $match);
         if (count($components) > 1) {
             $as = $components[0] . "_" . $components[1] . "_score";
