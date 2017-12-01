@@ -19,8 +19,15 @@ Builder::macro("against", function ($search, $booleanMode = false) {
             $as = $this->from . "_" . $match;
         }
 
+        $boolSql = "";
+        
+        if ($booleanMode) {
+            $boolSql = "IN BOOLEAN MODE";
+        }
+
+        $this->search = $search;
         if (!$matched) {
-            $this->selectRaw("MATCH ($match) AGAINST (?) AS $as", [$search]);
+            $this->selectRaw("MATCH ($match) AGAINST (? {$boolSql}) AS $as", [$search]);
 
             $this->bindings[$match] = true;
         }
