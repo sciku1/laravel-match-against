@@ -2,28 +2,29 @@
 
 use Illuminate\Database\Query\Builder;
 
-Builder::macro("against", function ($search, $booleanMode = false) {
+Builder::macro("against", function ($search, $mode = '', $ordering = 'DESC') {
     if (empty($this->matches)) {
         $this->matches = [];
     }
 
+    switch ($mode) {
+        case 'boolean':
+            $modeSql = 'IN BOOLEAN MODE';
+            break;
+        case 'natural':
+            $modeSql = 'IN NATURAL LANGUAGE MODE';
+            break;
+        default:
+            $modeSql = '';
+            break;
+    }
 
     foreach ($this->matches as $match) {
-        $components = explode('.', $match);
-        if (count($components) > 1) {
-            $as = $components[0] . "_" . $components[1] . "_score";
-        } else {
-            $as = $this->from . "_" . $match;
-        }
-
-        $boolSql = "";
-
-        if ($booleanMode) {
-            $boolSql = "IN BOOLEAN MODE";
-        }
 
         $this->search = $search;
-        $this->selectRaw("MATCH ($match) AGAINST (? {$boolSql}) AS $as", [$search]);
+        $query = "MATCH ($match) AGAINST (? {$modeSql})";
+        $this->whereRaw($query, [$search]);
+        $this->orderByRaw("($query) $ordering", [$search]);
 
     }
 
