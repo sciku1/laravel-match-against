@@ -23,7 +23,7 @@ Builder::macro("against", function ($search, $mode = '', $ordering = 'DESC') {
 
         $this->search = $search;
         $query = "MATCH ($match) AGAINST (? {$modeSql})";
-        $this->whereRaw($query, [$search]);
+        $this->orWhereRaw($query, [$search]);
         $this->orderByRaw("($query) $ordering", [$search]);
 
     }
