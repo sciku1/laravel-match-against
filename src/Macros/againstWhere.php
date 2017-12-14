@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Query\Builder;
 
-Builder::macro("against", function ($search, $mode = '', $ordering = 'DESC') {
+Builder::macro("againstWhere", function ($search, $mode = '') {
     if (empty($this->matches)) {
         $this->matches = [];
     }
@@ -23,7 +23,7 @@ Builder::macro("against", function ($search, $mode = '', $ordering = 'DESC') {
 
         $this->search = $search;
         $query = "MATCH ($match) AGAINST (? {$modeSql})";
-        $this->orderByRaw("($query) $ordering", [$search]);
+        $this->orWhereRaw($query, [$search]);
 
     }
 
