@@ -15,10 +15,10 @@ You're done!
 You must register the service provider in your `config/app.php` 
 
 ```
-	'providers' => [
-        ...
-        Sciku1/LaravelMatchAgainst/Providers/MatchAgainstServiceProvider::class
-	]
+'providers' => [
+    ...
+    Sciku1/LaravelMatchAgainst/Providers/MatchAgainstServiceProvider::class
+]
 ```
 
 ## Usage
@@ -29,14 +29,33 @@ To run match against queries, the field must have a fulltext index, currently th
 DB::statement('ALTER TABLE `table_name` ADD FULLTEXT index_name(col1, col2)');
 ```
 
-Now you can run your query! 
+### Order
+The default behaviour is to order. Example:
 
 ```
 Model::match(['col1', 'col2'])->against('search terms')->get();
 ```
 
-You can also order by the aggregate of the scores, although right now it must be the last term.
+will generate
 
 ```
-Model::match(['col1', 'col2'])->against('search terms')->totalScore('DESC')->get() // or 'ASC'
+SELECT * FROM models ORDER BY (MATCH (col1) AGAINST ('search terms')) DESC, (MATCH (col2) AGAINST ('search terms')) DESC
 ```
+
+### Where 
+
+To limit the results, you must use `whereAgainst()`
+
+```
+Model::match(['col1', 'col2'])->whereAgainst('search terms')->get();
+```
+
+will generate
+
+```
+SELECT * FROM models WHERE (MATCH (col1) AGAINST ('search terms')) > 0, (MATCH (col2) AGAINST ('search terms')) > 0
+```
+
+### TotalScore (deprecated)
+You can get the sum of all results using totalScore(), but this will be removed in a later release.
+
