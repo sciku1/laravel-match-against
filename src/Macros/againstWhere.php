@@ -19,13 +19,15 @@ Builder::macro("againstWhere", function ($search, $mode = '') {
             break;
     }
 
-    foreach ($this->matches as $match) {
+    $matches = $this->matches;
+    $this->search = $search;
+    $this->where(function ($q) use ($matches, $search, $modeSql) {
+        foreach ($this->matches as $match) {
+            $querySql = "MATCH ($match) AGAINST (? {$modeSql}) > 0";
+            $q->orWhereRaw($querySql, [$search]);
+        }
+    });
 
-        $this->search = $search;
-        $query = "MATCH ($match) AGAINST (? {$modeSql})";
-        $this->orWhereRaw($query, [$search]);
-
-    }
 
     return $this;
 });
