@@ -56,6 +56,3 @@ will generate
 SELECT * FROM models WHERE (MATCH (col1) AGAINST ('search terms')) > 0, (MATCH (col2) AGAINST ('search terms')) > 0
 ```
 
-### TotalScore (deprecated)
-You can get the sum of all results using totalScore(), but this will be removed in a later release.
-
