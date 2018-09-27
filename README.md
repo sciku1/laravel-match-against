@@ -17,7 +17,7 @@ You must register the service provider in your `config/app.php`
 ```
 'providers' => [
     ...
-    Sciku1/LaravelMatchAgainst/Providers/MatchAgainstServiceProvider::class
+    Sciku1\LaravelMatchAgainst\Providers\MatchAgainstServiceProvider::class,
 ]
 ```
 
